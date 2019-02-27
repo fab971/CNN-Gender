@@ -6,7 +6,7 @@ from glob import glob
 from PIL import Image
 
 
-PATH = '/Users/fabienfluro/Documents/MS_BGD/Fil_Rouge/Work/Gender_CNN/data/'
+PATH = '/Users/fabienfluro/Documents/MS_BGD/Fil_Rouge/Work/CNN_Gender/data/resized/'
 
 data_modes = ['train', 'test']
 for d in data_modes:

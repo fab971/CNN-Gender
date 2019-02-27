@@ -7,7 +7,7 @@ from PIL import Image
 import csv
 
 
-PATH = '/Users/fabienfluro/Documents/MS_BGD/Fil_Rouge/Work/Gender_CNN/data/'
+PATH = '/Users/fabienfluro/Documents/MS_BGD/Fil_Rouge/Work/Gender_CNN/data/resized/'
 
 data_types = ['train', 'test']
 
