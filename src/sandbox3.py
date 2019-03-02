@@ -1,4 +1,4 @@
-import tensorflow as tensorflow
+import tensorflow as tf
 import numpy as np
 from dataset.DataSets2 import ds
 
