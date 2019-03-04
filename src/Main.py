@@ -8,13 +8,12 @@ import Layers
 # test : 169,396 (500 identities)
 # train : 3,141,890 (8631 identities)
 
-
 LoadModel = False
 
 train = ds.DataSet('/Users/fabienfluro/Documents/MS_BGD/Fil_Rouge/Work/CNN_Gender/data/resized/vggface2_dataset_train.tfrecords', 100000)
-test = ds.DataSet('/Users/fabienfluro/Documents/MS_BGD/Fil_Rouge/Work/CNN_Gender/data/resized/vggface2_dataset_test.tfrecords', 10000)
+test = ds.DataSet('/Users/fabienfluro/Documents/MS_BGD/Fil_Rouge/Work/CNN_Gender/data/resized/vggface2_dataset_test.tfrecords', 1000)
 
-experiment_name = 'Gender prediction'
+experiment_name = 'Gender_prediction_VGGFace2'
 
 def get_dict(database):
 	xs,ys = database.NextTrainingBatch()
@@ -48,7 +47,6 @@ with tf.name_scope('CNN'):
 	t = tf.nn.dropout(t, keep_prob)
   
 	y = Layers.fc(t,2,'fc_9',tf.nn.log_softmax)
-
 
 
 with tf.name_scope('cross_entropy'):
@@ -91,13 +89,13 @@ sess.run(tf.global_variables_initializer())
 writer = tf.summary.FileWriter(experiment_name, sess.graph)
 saver = tf.train.Saver()
 if LoadModel:
-	saver.restore(sess, "./model.ckpt")
+	saver.restore(sess, "../model/model.ckpt")
 
 
 train.load(sess)
 test.load(sess)
 
-nbIt = 1000
+nbIt = 10000
 for it in range(nbIt):
 	trainDict = get_dict(train)
 					
@@ -114,50 +112,13 @@ for it in range(nbIt):
 		print ("mean accuracy train = %f  test = %f" % (Acc_Train_value,Acc_Test_value ))
 		summary_acc = sess.run(MeanAcc_summary, feed_dict={Acc_Train:Acc_Train_value,Acc_Test:Acc_Test_value})
 		writer.add_summary(summary_acc, it)
-		if Acc_Test_value > 0.9 and not LoadModel:
+		if Acc_Test_value > 0.85 and not LoadModel:
 			# saver.save(sess, "/content/gdrive/My Drive/Colab Notebooks/CNN_GENDER/model/model.ckpt")
-			saver.save(sess, "./model.ckpt")
+			saver.save(sess, "../model/model.ckpt")
 		
 writer.close()
 # if not LoadModel:
-# 	saver.save(sess, "./model.ckpt")
+# 	saver.save(sess, "../model/model.ckpt")
 sess.close()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# sess = tf.Session()
-# sess.run(tf.global_variables_initializer())
-
-# data, labels = train.NextTrainingBatch(sess)
-
-
-# sess.close()
-
-# print(data)
-# print(labels)
-
-
-# print(np.shape(images_data[0][0]))
-# print('data:')
-# print(images_data[0])
-# print('labels:')
-# print(images_data[1])
-
-
-# print(np.shape(images_data))
-
-# plt.imshow(data[0])
-# plt.show()
 print('done!')
